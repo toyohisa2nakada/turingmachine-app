@@ -1,6 +1,13 @@
 
 import './style.css'
 
+const url = new URL(window.location.href);
+if (url.searchParams.has('reset')) {
+  localStorage.clear();
+  url.searchParams.delete('reset');
+  window.location.href = url.href;
+}
+
 /* The following "DEFAULT" values are used in machine specifications, unless another value is given in
  * the specification.  They are also used for a machine created with the "New Turing Machine" button.
  */
@@ -875,6 +882,10 @@ function setUpDragging(tape) {
         tape.position = newPosition;
         tape.redraw();
       }
+
+      // nakada
+      saveToLocalStorage();
+      console.log("machine position changed")
     }
     else {
       tape.centerSquare = startCenterSquare - dSquare;
@@ -1175,6 +1186,10 @@ function doEditRule() {
       { state: oldstate, symbol: oldsymbol, action: oldAction },
       { state: oldstate, symbol: oldsymbol, action: action });
   }
+
+  // nakada
+  saveToLocalStorage();
+  console.log("change or create new rule");
 }
 
 
@@ -1197,6 +1212,10 @@ function doDeleteSelectedRule() {
   addUndoItem("Delete Rule",
     { what: "add", state: state, symbol: symbol, action: action, elem: elem },
     { what: "delete", state: state, symbol: symbol, tr: elem });
+
+  // nakada 
+  saveToLocalStorage();
+  console.log("deleted selected rule");
 }
 
 function doSetTapeContents() {
@@ -1284,6 +1303,9 @@ function installExamples() {
 }
 
 function doLoadExample() {
+
+  document.querySelectorAll(".example-btn").forEach(e => e.classList.remove("selected"))
+
   if (running)
     doStop();
   var num = Number(document.getElementById("example-select").value);
@@ -1426,6 +1448,10 @@ function doKeyPress(evt) {
     }
     else
       message.setTemp("Type one of the legal symbols.", 800);
+
+    // nakada
+    saveToLocalStorage();
+    console.log("tape changed")
   }
   else { // editing the action in a rule
     td = currentInput.td;
@@ -2006,14 +2032,23 @@ async function setUpFileHandling() {
   const panel = document.getElementById("example-panel");
   const params = new URLSearchParams(window.location.search);
   for (let i = 0; i < 6; i += 1) {
-    const json = await (await fetch(`examples/Exp${i + 1}${params.get("ans") ? ".ans" : ""}.json`)).json();
+    const fileName = `Exp${i + 1}${params.get("ans") ? ".ans" : ""}.json`;
+    let json = loadFromLocalStorage(fileName);
+    if (!json) {
+      json = await (await fetch(`examples/${fileName}`)).json();
+      if (!params.get("ans")) {
+        localStorage.setItem(fileName, JSON.stringify(json));
+      }
+    }
     const btn = document.createElement("button");
     btn.classList.add("example-btn");
+    btn.dataset.fileName = fileName;
     btn.textContent = `${i + 1} ${json.name}`;
     panel.appendChild(btn);
     btn.onclick = () => {
       document.querySelectorAll(".example-btn").forEach(e => e.classList.remove("selected"));
       btn.classList.add("selected");
+      let json = loadFromLocalStorage(fileName);
       if (newTM(JSON.stringify(json))) {
         setMessage(`Successfully loaded example ${i + 1}`);
       }
@@ -2168,6 +2203,23 @@ function countCollatzSteps(n) {
 // for (let i = 0; i < 5000; i += 1) {
 //   console.log(`${i} ${countCollatzSteps(i).length}`)
 // }
+
+function saveToLocalStorage() {
+  const selectedBtn = document.querySelector(".example-btn.selected");
+  if (!selectedBtn) return;
+  const fileName = selectedBtn.dataset.fileName;
+  if (!fileName || fileName.includes(".ans")) return;
+
+  const content = TM.toJSON();
+  const parsed = typeof content === 'string' ? JSON.parse(content) : content;
+  localStorage.setItem(fileName, JSON.stringify(parsed));
+}
+
+function loadFromLocalStorage(fileName) {
+  if (fileName.includes(".ans")) return null;
+  const data = localStorage.getItem(fileName);
+  return data ? JSON.parse(data) : null;
+}
 
 await init();
 setTimeout(() => { document.querySelector(".example-btn").click() }, 0)
