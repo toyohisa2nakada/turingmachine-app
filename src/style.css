@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+@layer base {
+  button {
+    @apply px-2 py-1 bg-blue-600 text-white rounded-lg transition-colors;
+  }
+
+  button:hover {
+    @apply bg-blue-700;
+  }
+}
+
+.example-btn {
+  margin: 5px 0;
+  font-size: small;
+  margin-left: 2px;
+  margin-right: 2px;
+  @apply bg-blue-900 border-2 border-blue-900;
+}
+
+.example-btn.selected {
+  @apply bg-blue-600 border-2 border-blue-200;
+}
+
+html,
+body,
+#content {
+  margin: 0;
+  padding: 0;
+  background-color: #EEEEEE;
+}
+
+h2 {
+  /* margin: 5px 10px 1px 10px; */
+  white-space: pre;
+}
+
+#content {
+  min-width: 800px;
+  -webkit-user-select: none;
+  /* turning off text selection  / Webkit */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE 10  */
+  -o-user-select: none;
+  /* Opera */
+  user-select: none;
+}
+
+.message {
+  color: #222222;
+  font-size: x-small;
+  margin-left: 10px;
+}
+
+#description {
+  color: #005555;
+  margin-left: 10px;
+}
+
+#tape-holder {
+  margin: 5px 0;
+  padding: 0;
+  border-bottom: 2px solid black;
+  border-top: 2px solid black;
+}
+
+#tape-canvas {
+  display: block;
+  background-color: white;
+}
+
+tr.selected {
+  outline: magenta solid 2px;
+}
+
+td.selected {
+  outline: cyan solid 4px;
+}
+
+#rules-holder {
+  display: inline-block;
+  border: 2px solid black;
+  background-color: white;
+  margin-left: 10px;
+}
+
+#rules-table tr {
+  margin: 0;
+  padding: 0;
+}
+
+#rules-table td,
+#rules-table th {
+  margin: 0;
+  padding: 4px;
+  text-align: center;
+  width: 20%;
+}
+
+#rules-table th {
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+
+#rules-table td {
+  border-bottom: 1px solid black;
+}
+
+.border-right {
+  border-right: 2px solid black;
+}
+
+#editor-holder {
+  float: left;
+  margin: 10px;
+  padding: 8px;
+  background-color: white;
+  border: 2px solid black;
+}
+
+#bottom-table {
+  clear: both;
+}
+
+#controls {
+  display: inline-block;
+  background-color: white;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  border-top: 2px solid black;
+  padding: 0;
+  margin-left: 10px;
+}
+
+#controls p {
+  margin: 12px 0;
+  white-space: nowrap;
+}
+
+div.group {
+  padding: 0 8px;
+  border-bottom: 2px solid black;
+}
+
+#jsonimportbg {
+  position: fixed;
+  z-index: 10;
+  opacity: 0.7;
+  background-color: black;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+#jsonimport,
+#newTM {
+  position: absolute;
+  left: 50px;
+  top: 50px;
+  z-index: 20;
+  padding: 10px;
+  background-color: #D8D8FF;
+  border: 2px solid #000099;
+  border-radius: 16px;
+  box-shadow: 5px 5px 8px black;
+  display: none;
+}
+
+textarea {
+  white-space: pre;
+  word-wrap: normal;
+  overflow-x: scroll;
+}
