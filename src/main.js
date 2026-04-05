@@ -446,7 +446,6 @@ function Action(newSymbol, newState, direction, max_state, legal_symbols) {
     throw "Illegal new symbol in rule.";
   this.newSymbol = newSymbol;
 
-  // console.log(newState, max_state)
   if (!isState(newState, max_state, true))
     throw "Illegal new state in rule.";
   this.newState = (newState === "h" || newState === "H") ? -1 : newState;
@@ -885,7 +884,6 @@ function setUpDragging(tape) {
 
       // nakada
       saveToLocalStorage();
-      console.log("machine position changed")
     }
     else {
       tape.centerSquare = startCenterSquare - dSquare;
@@ -1021,7 +1019,6 @@ function selectRule(state, symbol) {
     throw "Assertion error: illegal state or symbol in selectRule";
   var action, id;
   document.getElementById("old-state").value = state < 0 ? "h" : "" + state;
-  //    console.log("rules[" + symbol + "] = " + rules[symbol] + "   rules[" + TM.program.wildcard + "] = " + rules[TM.program.wildcard]);
   if (!rules[symbol] && !rules[TM.program.wildcard]) {
     if (selectedRowID)
       document.getElementById(selectedRowID).className = null;
@@ -1061,7 +1058,6 @@ function selectRuleFromTM() {
 function selectRuleByMouse(evt) {
   if (!running) {
     if (this.TM_edit) {
-      //            console.log("clicked " + this.TM_edit + " in " + this.parentElement.id);
       setCurrentInput({ kind: this.TM_edit, td: this });
       this.className = "selected";
       selectRule(this.parentElement.TM_state, TM.program.all_symbols.charAt(this.parentElement.TM_symbol));
@@ -1189,7 +1185,6 @@ function doEditRule() {
 
   // nakada
   saveToLocalStorage();
-  console.log("change or create new rule");
 }
 
 
@@ -1215,7 +1210,6 @@ function doDeleteSelectedRule() {
 
   // nakada 
   saveToLocalStorage();
-  console.log("deleted selected rule");
 }
 
 function doSetTapeContents() {
@@ -1390,7 +1384,6 @@ function doKeyPress(evt) {
     key = String.fromCharCode(evt.keyCode);
   var code = key.charCodeAt(0);
   var digit, max, maxTens, action, tr, td, oldSymbol, oldState;
-  //console.log(code + " " + evt.key + " " + evt.which + " " + evt.keyCode);
   if (currentInput.kind == "state") {
     if (key == 'h' || key == 'H') {  // "h"
       if (inputTimeout) {
@@ -1451,7 +1444,6 @@ function doKeyPress(evt) {
 
     // nakada
     saveToLocalStorage();
-    console.log("tape changed")
   }
   else { // editing the action in a rule
     td = currentInput.td;
@@ -1459,7 +1451,6 @@ function doKeyPress(evt) {
     oldstate = tr.TM_state;
     oldsymbol = TM.program.all_symbols.charAt(tr.TM_symbol);
     action = TM.program.rules[oldstate][oldsymbol];
-    //console.log(action.newState + "  " + action.newSymbol + " " + action.direction);
     if (currentInput.kind == "rule_direction") {
       if (key == "s" || key == "S")
         changeRule("direction", "S");
@@ -1679,7 +1670,6 @@ function addUndoItem(name, oldValue, newValue) {
   if (applyUndoInProgress) {
     return;
   }
-  //    console.log("old value = " + oldValue + "\nnew value = " + newValue);
   undoList.length = undoCount;
   if (name == "Edit Rule" && undoCount > 0) {
     var prev = undoList[undoCount - 1];
@@ -2044,7 +2034,6 @@ async function setUpFileHandling() {
     btn.classList.add("example-btn");
     btn.dataset.fileName = fileName;
     btn.textContent = `${i + 1} ${json.name}`;
-    // console.log(json.name)
     panel.appendChild(btn);
     btn.onclick = () => {
       document.querySelectorAll(".example-btn").forEach(e => e.classList.remove("selected"));
@@ -2119,7 +2108,6 @@ async function init() {
   else
     install(new Program());
   function noinput() {
-    //console.log("somthing was focussed");
     setCurrentInput(null);
   }
 }
@@ -2166,7 +2154,6 @@ async function loadTextFile() {
     rules: toRules(lines),
     max_state: toMaxState(toRules(lines))
   };
-  console.log(json);
 
   function downloadTextFile(content, fileName) {
     const blob = new Blob([content], { type: 'text/plain' });
