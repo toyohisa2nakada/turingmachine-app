@@ -2,11 +2,11 @@
 
 @layer base {
   button {
-    @apply px-2 py-1 bg-blue-600 text-white rounded-lg transition-colors;
+    @apply px-2 bg-blue-800 text-white rounded-lg transition-colors;
   }
 
   button:hover {
-    @apply bg-blue-700;
+    @apply bg-blue-900;
   }
 }
 

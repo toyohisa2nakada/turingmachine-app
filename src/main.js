@@ -2044,6 +2044,7 @@ async function setUpFileHandling() {
     btn.classList.add("example-btn");
     btn.dataset.fileName = fileName;
     btn.textContent = `${i + 1} ${json.name}`;
+    // console.log(json.name)
     panel.appendChild(btn);
     btn.onclick = () => {
       document.querySelectorAll(".example-btn").forEach(e => e.classList.remove("selected"));
