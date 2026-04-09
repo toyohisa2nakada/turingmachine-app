@@ -2026,9 +2026,7 @@ async function setUpFileHandling() {
     let json = loadFromLocalStorage(fileName);
     if (!json) {
       json = await (await fetch(`examples/${fileName}`)).json();
-      if (!params.get("ans")) {
-        localStorage.setItem(fileName, JSON.stringify(json));
-      }
+      localStorage.setItem(fileName, JSON.stringify(json));
     }
     const btn = document.createElement("button");
     btn.classList.add("example-btn");
@@ -2204,7 +2202,6 @@ function saveToLocalStorage() {
 }
 
 function loadFromLocalStorage(fileName) {
-  if (fileName.includes(".ans")) return null;
   const data = localStorage.getItem(fileName);
   return data ? JSON.parse(data) : null;
 }
