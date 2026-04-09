@@ -10,6 +10,17 @@
   }
 }
 
+#example-panel {
+  @apply flex flex-row;
+}
+.reset-localStorage-btn {
+  margin: 5px 0;
+  font-size: small;
+  margin-left: 2px;
+  margin-right: 2px;
+  @apply ml-auto bg-blue-900 border-2 border-gray-900;
+}
+
 .example-btn {
   margin: 5px 0;
   font-size: small;

@@ -2042,6 +2042,16 @@ async function setUpFileHandling() {
       }
     }
   }
+  const clearBtn = document.createElement("button");
+  clearBtn.classList.add("reset-localStorage-btn");
+  clearBtn.textContent = "reset";
+  clearBtn.onclick = () => {
+    if (confirm("すべての作成済みプログラムを消去します。よろしいですか？")) {
+      const url = new URL(window.location.href);
+      window.location.href = url.origin + "?reset";
+    }
+  }
+  panel.appendChild(clearBtn);
   // ---------------------------------------------------------------
 }
 
